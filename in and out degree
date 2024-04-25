@@ -1,0 +1,26 @@
+def compute_degree(grp,ver):
+    In_deg=[0]*ver
+    out_deg=[0]*ver
+    for i in range(ver):
+        for j in range(ver):
+            if grp[i][j]==1:
+                out_deg[i]+= 1
+                In_deg[j]+= 1
+    return In_deg,out_deg
+def main():
+    grp=[]
+    ver=int (input("enter the no. of vertices present in the graph: "))
+    print()
+    for i in range(1,ver+1):
+        rows=[]
+        for j in range(1,ver+1):
+            cell =int(input(f"enter the value of{i,j}: "))
+            rows.append(cell)
+        grp.append(rows)
+    In_deg,out_deg=compute_degree(grp,ver)
+    print()
+    print("vertex \t in-degrees \t out-degree ")
+    for i in range(len(grp)):
+        print(f"{i+1}\t{In_deg[i]}\t\t{out_deg[i]}")
+if __name__=="__main__":
+    main()
