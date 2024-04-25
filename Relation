@@ -1,0 +1,78 @@
+class RELATION:
+    def __init__(self,matrix):
+        self.matrix=matrix      
+    def isReflexive(self):
+        n=range(len(self.matrix))
+        for i in n:
+            if self.matrix[i][i]!=1:
+                return False
+        return True
+    def  isSymmetric(self):
+        n=range(len(self.matrix))
+        for i in n:
+            for j in n:
+                if self.matrix[i][j]!=self.matrix[j][i]:
+                    return False
+        return True
+    def  isAntisymmetric(self):
+        n=range(len(self.matrix))
+        for i in n:
+            for j in n:
+                if self.matrix[i][j]==1 and self.matrix[j][i]==1 and i!=j:
+                    return False
+        return True
+    def  isTransitive(self):
+        n=range(len(self.matrix))
+        for i in n:
+            for j in n:
+                if self.matrix[i][j]==1:
+                    for k in n:
+                         if self.matrix[j][k]==1 and self.matrix[i][k]!=1 :
+                             return False
+        return True  
+    def isEquivalence(self):
+        return self.isReflexive() and self.isSymmetric() and self.isTransitive()
+    
+    def isPartialOrder(self):
+         return self.isReflexive() and self.isAntisymmetric() and self.isTransitive()
+def main():
+        rows=int(input("Enter the number of rows:"))
+        columns=int(input("Enter the number of columns:"))
+        print()
+        matrix=[]
+        for i in range(rows):
+            row=[]
+            for j in range(columns):
+                element=int(input(f"Enter the element at position ({i+1},{j+1}):"))
+                row.append(element)
+            matrix.append(row)
+        print(f'\n{matrix}')
+        relation=RELATION(matrix)
+        print()
+        if  relation.isReflexive():
+            print("The relation is reflexive")
+        else:
+            print("The relation is not reflexive")
+        if  relation.isSymmetric():
+            print("The relation is Symmetric")
+        else:
+            print("The relation is not Symmetric")
+        if  relation.isAntisymmetric():
+            print("The relation is Antisymmetric")
+        else:
+            print("The relation is not Antisymmetric")
+        if  relation.isTransitive():
+            print("The relation is Transitive")
+        else:
+            print("The relation is not Transitive")
+        if  relation.isEquivalence():
+            print("The relation is Equivalence Relation")
+        else:
+            print("The relation is not a Equivalence Relation")
+        if  relation.isPartialOrder():
+            print("The relation is PartialOrder Relation")
+        else:
+            print("The relation is not aPartialOrder Relation")
+        print()
+if __name__== '__main__':
+    main()
