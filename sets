@@ -1,0 +1,79 @@
+"DMS SETS PRACTICAL.py"
+class set:
+    def __init__(self,elements):
+        self.elements = elements
+    def ismember(self,element):
+        return element in self.elements
+    def powerset(self):
+        power_set=[[]]
+        for element in self.elements:
+            subsets=[]
+            for subset in power_set:
+                subsets.append(subset + [element])
+            power_set+=subsets
+        return power_set
+    def subset(self,other_set):
+        return set(self.elements).issubset(other_set.elements)
+    def union(self,other_set):
+        return set(self.elements).union(other_set.elements)
+    def intersection(self,other_set):
+        return set(self.elements).intersection(other_set.elements)
+    def complement(self,universal_set):
+        return set(universal_set.elements).difference(self.elements)
+    def difference(self,other_set):
+        return set(self.elements).difference(other_set.elements)
+    def symmetric_difference(self, other_set):
+        return set(self.elements).symmetric_difference(other_set.elements)
+    def cartesian_product(self, other_set):
+        cartesian=[]
+        for element1 in self.elements:
+            for element2 in other_set.elements:
+                cartesian.append((element1,element2))
+        return cartesian
+def main():
+    print("SET Operation Menu \n")
+    print("1. Check membership")
+    print("2. Power set")
+    print("3. Check Subset")
+    print("4. Union")
+    print("5. Intersection")
+    print("6. complement")
+    print("7. Set difference")
+    print("8. Symmetric difference")
+    print("9. Cartesian product")
+    choice=input('\n Enter your choice:')
+    print()
+    print('Type the elements separated by comma\n')
+    set1=set(input("Enter elements for set 1 :").split(','))
+    set2=set(input("Enter elements for set 2 :").split(','))
+    print("\nSet 1: {"+', '.join(set1.elements)+"}")
+    print("Set 2: {"+', '.join(set2.elements)+"}")
+    if choice=='1':
+        element = input('Enter the element to check membership: ')
+        print(f"Is{element} a member of set 1? {set1.ismember(element)}")
+        print(f"Is {element} a memeber of set 2? {set2.ismember(element)}")
+    elif choice == '2':
+        print("Power set of set 1:", set1.powerset())
+        print("Power set of set 2:", set2.powerset())
+    elif choice == '3':
+        print(f"Is set 1 a subset of set 2? {set1.subset(set2)}")
+        print(f"Is set 2 a subset of set 1? {set2.subset(set1)}")
+    elif choice =='4':
+        print("Union of set 1 and set 2:",set1.union(set2))
+    elif choice == '5':
+        print("Intersection of set1 and set 2:", set1.intersection(set2))
+    elif choice =='6':
+        universal_set=set(input("Enter elements for the universal set(comma_separated) : ").split(','))
+        print("Complement of set 1:",set1.complement(universal_set))
+        print("Complementof set 2:",set2.complement(universal_set)) 
+    elif choice=='7':
+        print("Difference of set 1and set2:",set1.difference(set2))
+        print("Difference of set 2and set1:",set2.difference(set1))
+    elif choice=='8':
+        print("Symmetric difference of set1 and set2:",set1.symmetric_difference(set2))
+    elif choice=='9':
+        print("Cartesian product of set1 and set2:",set1.cartesian_product(set2))
+    else:
+        print("invalid choice...")
+if __name__=='__main__':
+    main()
