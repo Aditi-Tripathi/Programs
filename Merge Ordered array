@@ -1,0 +1,40 @@
+#include <iostream>
+using namespace std;
+
+void merge(int a[], int s_1, int b[], int s_2, int m[]) {
+    int i = 0, j = 0, k = 0;
+       while (i < s_1 && j < s_2) {
+        if (a[i] < b[j]) {
+            m[k] = a[i];
+            i++;
+        } else {
+            m[k] = b[j];
+            j++;
+        }
+        k++;
+    } 
+    while (i < s_1) {
+        m[k] = a[i];
+        i++;
+        k++;
+    }   
+    while (j < s_2) {
+        m[k] = b[j];
+        j++;
+        k++;
+    }
+}
+int main() {  
+    int a[] = {3,9,12,21,54,63};
+    int b[] = {8,25,30,66};
+    int s_1 = sizeof(a) / sizeof(a[0]);
+    int s_2 = sizeof(b) / sizeof(b[0]);
+    int m[s_1+s_2];
+    merge(a, s_1, b, s_2, m);   
+    cout << "The merged array is: ";
+    for (int i = 0; i < s_1+s_2; i++) {
+        cout << m[i] << " ";
+    }
+    return 0;
+}
+
