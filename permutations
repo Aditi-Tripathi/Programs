@@ -1,0 +1,14 @@
+def generate_permutations(digits, length, repetition):
+    from itertools import permutations
+    if repetition:
+        return list(permutations(digits, length))
+    else:
+        return list(set(permutations(digits, length)))
+input_digits = [1,2,3,3]
+permutation_length = 2
+allow_repetition = True
+all_permutations = generate_permutations(input_digits, permutation_length, allow_repetition)
+print("All permutations (with repetition):", all_permutations)
+allow_repetition = False
+unique_permutations = generate_permutations(input_digits, permutation_length, allow_repetition)
+print("Unique permutations (without repetition):", unique_permutations)
