@@ -4,7 +4,7 @@ def generate_permutations(digits, length, repetition):
         return list(permutations(digits, length))
     else:
         return list(set(permutations(digits, length)))
-input_digits = [1,2,3,3]
+input_digits = eval (input("Enter list of numbers to form permutations :"))
 permutation_length = 2
 allow_repetition = True
 all_permutations = generate_permutations(input_digits, permutation_length, allow_repetition)
