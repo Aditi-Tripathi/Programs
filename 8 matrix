@@ -1,0 +1,157 @@
+#include <iostream> 
+ 
+class Matrix { 
+private: 
+    int rows; 
+    int cols; 
+    int **data; 
+ 
+public: 
+    Matrix(int r, int c) : rows(r), cols(c) { 
+        data = new int*[rows]; 
+        for (int i = 0; i < rows; ++i) { 
+            data[i] = new int[cols]; 
+            for (int j = 0; j < cols; ++j) { 
+                data[i][j] = 0; 
+            } 
+        } 
+    } 
+ 
+    ~Matrix() { 
+        for (int i = 0; i < rows; ++i) { 
+            delete[] data[i]; 
+        } 
+        delete[] data; 
+    } 
+ 
+    void set(int i, int j, int value) { 
+        data[i][j] = value; 
+    } 
+ 
+    int get(int i, int j) const { 
+        return data[i][j]; 
+    } 
+ 
+    Matrix add(const Matrix& other) const { 
+        if (rows != other.rows || cols != other.cols) { 
+            throw std::invalid_argument("Matrices are incompatible for addition"); 
+        } 
+ 
+        Matrix result(rows, cols); 
+        for (int i = 0; i < rows; ++i) { 
+            for (int j = 0; j < cols; ++j) { 
+                result.set(i, j, data[i][j] + other.data[i][j]); 
+            } 
+        } 
+        return result; 
+    } 
+ 
+    Matrix multiply(const Matrix& other) const { 
+        if (cols != other.rows) { 
+            throw std::invalid_argument("Matrices are incompatible for multiplication"); 
+        } 
+ 
+        Matrix result(rows, other.cols); 
+        for (int i = 0; i < rows; ++i) { 
+            for (int j = 0; j < other.cols; ++j) { 
+                for (int k = 0; k < cols; ++k) { 
+                    result.data[i][j] += data[i][k] * other.data[k][j]; 
+                } 
+            } 
+        } 
+        return result; 
+    } 
+ 
+    Matrix transpose() const { 
+        Matrix result(cols, rows); 
+        for (int i = 0; i < cols; ++i) { 
+            for (int j = 0; j < rows; ++j) { 
+                result.set(i, j, data[j][i]); 
+            } 
+        } 
+        return result; 
+    } 
+}; 
+ 
+int main() { 
+    int rows, cols; 
+    std::cout << "Enter number of rows for matrices: "; 
+    std::cin >> rows; 
+    std::cout << "Enter number of columns for matrices: "; 
+    std::cin >> cols; 
+ 
+    Matrix matrix1(rows, cols); 
+    Matrix matrix2(rows, cols); 
+ 
+    std::cout << "Enter elements for matrix 1:" << std::endl; 
+    for (int i = 0; i < rows; ++i) { 
+        for (int j = 0; j < cols; ++j) { 
+            int value; 
+            std::cout << "Enter element at position (" << i << "," << j << "): "; 
+            std::cin >> value; 
+            matrix1.set(i, j, value); 
+        } 
+    } 
+ 
+    std::cout << "Enter elements for matrix 2:" << std::endl; 
+    for (int i = 0; i < rows; ++i) { 
+        for (int j = 0; j < cols; ++j) { 
+            int value; 
+            std::cout << "Enter element at position (" << i << "," << j << "): "; 
+            std::cin >> value; 
+            matrix2.set(i, j, value); 
+        } 
+    } 
+ 
+    std::cout << "Menu:" << std::endl; 
+    std::cout << "1. Sum of matrices" << std::endl; 
+    std::cout << "2. Product of matrices" << std::endl; 
+    std::cout << "3. Transpose of matrix 1" << std::endl; 
+    std::cout << "Enter your choice: "; 
+    int choice; 
+    std::cin >> choice; 
+ 
+    try { 
+        switch (choice) { 
+            case 1: { 
+                Matrix sum = matrix1.add(matrix2); 
+                std::cout << "Sum of matrices:" << std::endl; 
+                for (int i = 0; i < rows; ++i) { 
+                    for (int j = 0; j < cols; ++j) { 
+                        std::cout << sum.get(i, j) << " "; 
+                    } 
+                    std::cout << std::endl; 
+                } 
+                break; 
+            } 
+            case 2: { 
+                Matrix product = matrix1.multiply(matrix2); 
+                std::cout << "Product of matrices:" << std::endl; 
+                for (int i = 0; i < rows; ++i) {
+                    for (int j = 0; j < cols; ++j) { 
+                        std::cout << product.get(i, j) << " "; 
+                    } 
+                    std::cout << std::endl; 
+                } 
+                break; 
+            } 
+            case 3: { 
+                Matrix transpose = matrix1.transpose(); 
+                std::cout << "Transpose of matrix 1:" << std::endl; 
+                for (int i = 0; i < cols; ++i) { 
+                    for (int j = 0; j < rows; ++j) { 
+                        std::cout << transpose.get(i, j) << " "; 
+                    } 
+                    std::cout << std::endl; 
+                } 
+                break; 
+            } 
+            default: 
+                std::cout << "Invalid choice!" << std::endl; 
+        } 
+    } catch (const std::invalid_argument& e) { 
+        std::cerr << "Error: " << e.what() << std::endl; 
+    } 
+ 
+    return 0; 
+}
